@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<article>
+{{ context }}
+    <h3>{{ bom }}</h3>
+        <table>
+                 <tr>
+                    <td>Поз</td>
+                    <td>Наименование</td>
+                    <td>Кол</td>
+                    <td>Примечание</td>
+                </tr>
+            {% for component in components|dictsort:"annotation" %}
+                <tr>
+                    <td>{{ component.annotation}}</td>
+                    <td>{{ component.name}}</td>
+                    <td>{{ component.count}}</td>
+                </tr>
+            {% endfor %}
+
+        </table>
+    </article>
+
+</body>
+</html>

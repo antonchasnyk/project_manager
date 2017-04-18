@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>PCBs</title>
+</head>
+<body>
+{% for pcb in pcbs %}
+    <article>
+    <h3>{{ pcb }}</h3>
+        {% for bom in pcb.bom_set.all %}
+            <p>
+                <div>{{ bom }}</div>
+                <div>
+                    <a href="{% url 'bom_detail' id=bom.id %}" > Show detail</a>
+                </div>
+            </p>
+        {% endfor %}
+    </article>
+{% endfor %}
+
+</body>
+</html>

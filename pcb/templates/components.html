@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+    <article>
+    <h3>Resistors</h3>
+        <table>
+            <tr>
+                <td>Name</td><td>Detail</td>
+            </tr>
+            {% for res in R %}
+                <tr>
+                    <td>{{ res.name }}</td>
+                    <td><a href="{% url 'components_detail' id=res.id type='resistor' %}" > Show detail</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+    <article>
+    <h3>Capacitors</h3>
+        <table>
+            <tr>
+                <td>Name</td><td>Detail</td>
+            </tr>
+            {% for cap in C %}
+                <tr>
+                    <td>{{ cap.name }}</td>
+                    <td><a href="{% url 'components_detail' id=cap.id type='capacitor' %}" > Show detail</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+    <article>
+    <h3>Transistors</h3>
+        <table>
+            <tr>
+                <td>Name</td><td>Detail</td>
+            </tr>
+            {% for trans in VT %}
+                <tr>
+                    <td>{{ trans.name }}</td>
+                    <td><a href="{% url 'components_detail' id=trans.id type='transistor' %}" > Show detail</a></td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+</body>
+</html>
