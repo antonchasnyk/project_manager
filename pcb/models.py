@@ -4,9 +4,9 @@ from django.db import models
 
 
 class Pcb(models.Model):
-    name = models.CharField(max_length=30, null=False)
-    cipher = models.CharField(max_length=15, null=False)
-    revision = models.CharField(max_length=1, null=False)
+    name = models.CharField(max_length=30)
+    cipher = models.CharField(max_length=15)
+    revision = models.CharField(max_length=1)
 
     class Meta:
         unique_together = (('cipher', 'revision'),)
@@ -28,7 +28,7 @@ class Footprint(models.Model):
 class Component(models.Model):
     name = models.CharField(max_length=30)
     footprint = models.ForeignKey(Footprint)
-    image = models.ImageField(upload_to='components_images', null=True)
+    image = models.ImageField(upload_to='components_images', null=True, blank=True)
 
     def __str__(self):
         return self.name
