@@ -1,14 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
+{% extends 'index.html' %}
+{% block content %}
 <body>
     {% load static %}
-    <img width="150" src="{%static el.image.url%}">
+    <img class="previews" src="{%static el.image.url%}">
     <br>
     {{ el }}
 
 </body>
-</html>
+{% endblock %}

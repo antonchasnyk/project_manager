@@ -1,20 +1,14 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+
+{% extends "index.html" %}
+{% block content %}
 
 <article>
-{{ context }}
     <h3>{{ bom }}</h3>
-        <table>
+        <table class="bom">
                  <tr>
                     <td>Поз</td>
                     <td>Наименование</td>
                     <td>Кол</td>
-                    <td>Примечание</td>
                 </tr>
             {% for component in components|dictsort:"annotation" %}
                 <tr>
@@ -27,5 +21,4 @@
         </table>
     </article>
 
-</body>
-</html>
+{% endblock %}
