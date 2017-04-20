@@ -1,13 +1,17 @@
 from django.shortcuts import render, get_object_or_404
-from .models import Resistor, Capacitor, Transistor
+from .models import Resistor, Capacitor, Transistor, Component
 
 # Create your views here.
 
-def components_detail(request, id, type):
-    el = None
-    if type == 'capacitor':
-        el = get_object_or_404(Capacitor, pk=id)
-    context = {'el': el}
+
+def components_detail(request, id):
+    el = get_object_or_404(Component, pk=id)
+    boms = el.bom_set.all().order_by('id').distinct('id')
+    cboms = []
+    for bom in boms:
+        count = bom.components.filter(pk=el.id).count()
+        cboms.append({'name':str(bom),'bom':bom, 'count':count})
+    context = {'el': el, 'cboms':cboms}
     return render(request, 'component.html', context=context)
 
 

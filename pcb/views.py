@@ -6,8 +6,12 @@ from .models import Bom, Pcb
 
 def index(request):
     queryset = Pcb.objects.all()
-    context = {'pcbs': queryset}
-    return render(request, 'index.html', context=context)
+    return render(request, 'index.html', context={'pcbs': queryset})
+
+
+def pcb_detail(request, id):
+    pcb = get_object_or_404(Pcb, pk=id)
+    return render(request, 'pcb_detail.html', context={'pcb':pcb})
 
 
 def bom_detail(request, id):

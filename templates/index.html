@@ -19,15 +19,9 @@
 {% block content %}
     {% for pcb in pcbs %}
         <article>
-        <h3>{{ pcb }}</h3>
-            {% for bom in pcb.bom_set.all %}
-                <div class="block">
-                    <div>{{ bom }}</div>
-                    <div>
-                        <a href="{% url 'bom_detail' id=bom.id %}" > Show detail</a>
-                    </div>
-                </div>
-            {% endfor %}
+            <div class="block">
+                <a href="{% url 'pcb_detail' id=pcb.id %}"> {{ pcb }}</a>
+            </div>
         </article>
     {% endfor %}
 {% endblock %}

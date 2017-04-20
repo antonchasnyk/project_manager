@@ -5,6 +5,14 @@
     <img class="previews" src="{%static el.image.url%}">
     <br>
     {{ el }}
+    <h3>Used in:</h3>
+    {% for bom in cboms|dictsort:"name"  %}
+        <div>
+        <a href="{%  url 'pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a> at BOM {{ bom.bom.description }}
+        count: {{ bom.count }}
+        </div>
+    {% endfor %}
+
 
 </body>
 {% endblock %}

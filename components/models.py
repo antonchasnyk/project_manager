@@ -11,7 +11,7 @@ class Footprint(models.Model):
 class Component(models.Model):
     name = models.CharField(max_length=30)
     footprint = models.ForeignKey(Footprint)
-    image = models.ImageField(upload_to='components_images', null=True, blank=True)
+    image = models.ImageField(upload_to='components_images', null=False, blank=False)
 
     def __str__(self):
         return self.name

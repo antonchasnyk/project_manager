@@ -1,0 +1,36 @@
+{% extends "index.html" %}
+{% block content %}
+
+{% load static %}
+<article>
+    <h3>{{ pcb }}</h3>
+        <h4>Order Information</h4>
+            <div class="block">
+                    <div> Order list: <a href="{% static pcb.orderlist.url %}" download> {{ pcb.filename }}</a></div>
+            </div>
+            <div class="block">
+                    <div> Order files: <a href="{% static pcb.orderfiles.url %}" download> {{ pcb.orderfiles }}</a></div>
+            </div>
+        <h4>Schematic</h4>
+            {% for sch in pcb.schematic_set.all %}
+                <div class="block">
+                    <div> <a href="{% static sch.sch.url %}" download> {{ sch }}</a></div>
+                </div>
+            {% endfor %}
+        <h4>PCB</h4>
+            <div class="block">
+                    <div> <a href="{% static pcb.pcb.url %}" download> Download</a></div>
+            </div>
+        <h4>BOM</h4>
+            {% for bom in pcb.bom_set.all %}
+                <div class="block">
+                    <div><a href="{% url 'bom_detail' id=bom.id %}" > {{ bom }} </a></div>
+                </div>
+            {% endfor %}
+        <h4>Full project</h4>
+            <div class="block">
+                    <div><a href="{{ pcb.project }}"> {{ pcb.project }} </a></div>
+            </div>
+</article>
+
+{% endblock %}
