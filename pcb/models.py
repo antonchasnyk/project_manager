@@ -1,4 +1,5 @@
 from django.db import models
+from components.models import Component
 
 # Create your models here.
 
@@ -18,34 +19,6 @@ class Pcb(models.Model):
         return '({} REV. {}) {}'.format(self.cipher, self.revision, self.name)
 
 
-class Footprint(models.Model):
-    name = models.CharField(max_length=30)
-
-    def __str__(self):
-        return self.name
-
-
-class Component(models.Model):
-    name = models.CharField(max_length=30)
-    footprint = models.ForeignKey(Footprint)
-    image = models.ImageField(upload_to='components_images', null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Resistor(Component):
-    value = models.PositiveIntegerField(default=0)
-
-
-class Capacitor(Component):
-    value = models.PositiveIntegerField(default=0)
-
-
-class Transistor(Component):
-    type = models.CharField(max_length=20)
-
-
 class BomComponent(models.Model):
     component = models.ForeignKey(Component, verbose_name='Component')
     bom = models.ForeignKey('Bom', verbose_name='Bill of material')
@@ -53,7 +26,8 @@ class BomComponent(models.Model):
 
     class Meta:
         unique_together = (('component', 'bom', 'annotation'),)
-        verbose_name = 'Bom to Component'
+        verbose_name = 'Component in Bom'
+        verbose_name_plural = 'Components in Bom'
 
 
 class Bom(models.Model):
