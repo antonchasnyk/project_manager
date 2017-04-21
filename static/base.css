@@ -21,20 +21,23 @@ ul {
   list-style: none; }
 
 article {
-  padding: 20px; }
+  padding: 5px; }
   article h3 {
     font-size: 32px; }
   article .block {
-    margin: 10px; }
+    padding: 2px 10px; }
   article a {
     font-style: italic; }
 
 .bom {
+  padding: 10px; }
+
+table {
   margin: 20px;
   padding: 10px;
   border: solid 1px;
   border-collapse: collapse; }
-  .bom td {
+  table td {
     border: solid 1px;
     border-collapse: collapse;
     padding: 5px 10px; }
@@ -59,5 +62,19 @@ nav a {
 .previews {
   width: 150px;
   margin: 20px; }
+
+dl {
+  overflow: hidden; }
+  dl dt {
+    background: #0288D1;
+    color: #fff;
+    float: left;
+    font-weight: bold;
+    margin: 3px 10px 3px 3px;
+    padding: 5px;
+    width: 200px;
+    text-align: right; }
+  dl dd {
+    padding: 8px 0; }
 
 /*# sourceMappingURL=base.css.map */

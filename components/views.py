@@ -25,12 +25,12 @@ def components(request):
     return render(request, 'components.html')
 
 
-def resistors(request):
+def resistors(request):    # TODO Copies
     res = Resistor.objects.all()
     return render(request, 'resistors.html', context={'resistors':res})
 
 
-def resistor_detail(request, id):
+def resistor_detail(request, id): # TODO make filtering value
     res = get_object_or_404(Resistor, pk=id)
     boms = get_boms(res.id)
     context = {'el': res, 'boms': boms}

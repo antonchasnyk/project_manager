@@ -1,23 +1,42 @@
 {% extends 'index.html' %}
 {% block content %}
 <body>
-    {% block image %}
-        {% load static %}
-        <img class="previews" src="{%static el.image.url%}">
-    {% endblock %}
-
-    {% block parameters %}
-        {{ el }}
-    {% endblock %}
+    <article>
+        {% block image %}
+            {% load static %}
+            <img class="previews" src="{%static el.image.url%}">
+        {% endblock %}
+    </article>
+    <article>
+        {% block parameters %}
+            {{ el }}
+        {% endblock %}
+    </article>
 
     {% block used_in %}
-        <h3>Used in:</h3>
-        {% for bom in boms|dictsort:"name"  %}
-            <div>
-            <a href="{%  url 'pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a> at BOM {{ bom.bom.description }}
-            count: {{ bom.count }}
-            </div>
-        {% endfor %}
+        <article>
+            <h3>Used in:</h3>
+            <table>
+                <tr>
+                    <td>PCB</td>
+                    <td>BOM</td>
+                    <td>Count</td>
+                </tr>
+                {% for bom in boms|dictsort:"name"  %}
+                    <tr>
+                        <td>
+                            <a href="{%  url 'pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a>
+                        </td>
+                        <td>
+                            <a href="{%  url 'bom_detail' id=bom.bom.id %}" >{{ bom.bom.description }}</a>
+                        </td>
+                        <td>
+                            {{ bom.count }}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </article>
     {% endblock %}
 
 

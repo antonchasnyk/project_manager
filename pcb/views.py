@@ -23,7 +23,7 @@ def bom_detail(request, id):
             counted_components[comp.component_id]['count'] += 1
             counted_components[comp.component_id]['annotation']+= ', {}'.format(comp.annotation)
         else:
-            counted_components[comp.component_id] = {'count': 1, 'name': comp.component.name,
+            counted_components[comp.component_id] = {'count': 1, 'el': comp.component,
                                                      'annotation':str(comp.annotation)}
 
     context = {'bom': str(bom), 'components': counted_components.values()}

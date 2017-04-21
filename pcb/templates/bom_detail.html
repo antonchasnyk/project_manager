@@ -13,7 +13,7 @@
             {% for component in components|dictsort:"annotation" %}
                 <tr>
                     <td>{{ component.annotation}}</td>
-                    <td>{{ component.name}}</td>
+                    <td><a href="{% url component.el.detail_name id=component.el.id %}">{{ component.el.comment}}</a></td>
                     <td>{{ component.count}}</td>
                 </tr>
             {% endfor %}

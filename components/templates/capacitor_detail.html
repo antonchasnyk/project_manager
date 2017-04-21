@@ -2,13 +2,12 @@
 
 
 {% block parameters %}
-    <div>
-        Name: {{ el.name }}
-    </div>
-    <div>
-        Footprint: {{ el.footprint }}
-    </div>
-    <div>
-        Value: {{ el.value }}
-    </div>
+    <dl>
+        <dt> Name: </dt>
+        <dd>{{ el.name }}</dd>
+        <dt>Footprint:</dt>
+        <dd>{{ el.footprint }}</dd>
+        <dt>Value:</dt>
+        <dd>{{ el.value }}</dd>
+    </dl>
 {% endblock %}
