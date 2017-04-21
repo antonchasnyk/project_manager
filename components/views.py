@@ -1,7 +1,5 @@
 from django.shortcuts import render, get_object_or_404
 from .models import Resistor, Capacitor, Transistor, Component
-from django.forms.models import model_to_dict
-from django.core.exceptions import ObjectDoesNotExist
 
 # Create your views here.
 
