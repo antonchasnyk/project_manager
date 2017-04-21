@@ -2,48 +2,15 @@
 {% block content %}
 
     <article>
-    <h3>Resistors</h3>
-        <table>
-            <tr>
-                <td>Name</td><td>Detail</td>
-            </tr>
-            {% for res in R %}
-                <tr>
-                    <td>{{ res.name }}</td>
-                    <td><a href="{% url 'components_detail' id=res.id  %}" > Show detail</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-    </article>
-
-    <article>
-    <h3>Capacitors</h3>
-        <table>
-            <tr>
-                <td>Name</td><td>Detail</td>
-            </tr>
-            {% for cap in C %}
-                <tr>
-                    <td>{{ cap.name }}</td>
-                    <td><a href="{% url 'components_detail' id=cap.id  %}" > Show detail</a></td>
-                </tr>
-            {% endfor %}
-        </table>
-    </article>
-
-    <article>
-    <h3>Transistors</h3>
-        <table>
-            <tr>
-                <td>Name</td><td>Detail</td>
-            </tr>
-            {% for trans in VT %}
-                <tr>
-                    <td>{{ trans.name }}</td>
-                    <td><a href="{% url 'components_detail' id=trans.id %}" > Show detail</a></td>
-                </tr>
-            {% endfor %}
-        </table>
+        <div>
+            <a href="{% url 'resistors' %}">Resistors</a>
+        </div>
+        <div>
+            <a href="{% url 'capacitors' %}">Capacitors</a>
+        </div>
+        <div>
+            <a href="{% url 'transistors' %}">Transistors</a>
+        </div>
     </article>
 
 {% endblock %}

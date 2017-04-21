@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block content %}
+
+    <article>
+        <table>
+            {% for capacitor in capacitors %}
+                <tr>
+                    <td>
+                        <a href="{% url 'capacitor_detail' id=capacitor.id %}"> {{ capacitor.name }} </a>
+                    </td>
+                    <td>
+                        {{ capacitor.footprint }}
+                    </td>
+                    <td>
+                        {{ capacitor.value }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+{% endblock %}

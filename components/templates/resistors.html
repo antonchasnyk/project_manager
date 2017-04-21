@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block content %}
+
+    <article>
+        <table>
+            {% for resistor in resistors %}
+                <tr>
+                    <td>
+                        <a href="{% url 'resistor_detail' id=resistor.id %}"> {{ resistor.name }} </a>
+                    </td>
+                    <td>
+                        {{ resistor.footprint }}
+                    </td>
+                    <td>
+                        {{ resistor.value }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+{% endblock %}

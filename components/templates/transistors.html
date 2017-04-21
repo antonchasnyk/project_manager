@@ -1,0 +1,22 @@
+{% extends "index.html" %}
+{% block content %}
+
+    <article>
+        <table>
+            {% for transistor in transistros %}
+                <tr>
+                    <td>
+                        <a href="{% url 'transistor_detail' id=transistor.id %}"> {{ transistor.name }} </a>
+                    </td>
+                    <td>
+                        {{ transistor.footprint }}
+                    </td>
+                    <td>
+                        {{ transistor.type }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </article>
+
+{% endblock %}

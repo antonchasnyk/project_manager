@@ -6,7 +6,7 @@ import os
 # Create your models here.
 
 
-def file_pdf(value):    #TODO Validators
+def file_pdf(value):    # TODO Validators
     if False:
         raise ValidationError('Only *.pdf are support')
     return value
@@ -42,7 +42,7 @@ class Pcb(models.Model):
     def __str__(self):
         return '({} REV. {}) {}'.format(self.cipher, self.revision, self.name)
 
-    def filename(self): #TODO clear filename
+    def filename(self): # TODO clear filename
         print(os.path.basename(self.orderlist.name))
         return os.path.basename(self.orderlist.name)
 

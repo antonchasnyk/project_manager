@@ -20,10 +20,19 @@ class Component(models.Model):
 class Resistor(Component):
     value = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering = ['footprint', 'value']
+
 
 class Capacitor(Component):
     value = models.PositiveIntegerField(default=0)
 
+    class Meta:
+        ordering = ['footprint', 'value']
+
 
 class Transistor(Component):
     type = models.CharField(max_length=20)
+
+    class Meta:
+        ordering = ['type', 'footprint']

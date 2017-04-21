@@ -8,7 +8,7 @@ class ComponentInline(admin.TabularInline):
     model = BomComponent
 
 
-class SchematicInline(admin.TabularInline): #TODO Make required
+class SchematicInline(admin.TabularInline): # TODO Make required
     model = Schematic
 
 
