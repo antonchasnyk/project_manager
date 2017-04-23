@@ -1,12 +1,26 @@
 from django.shortcuts import render, get_object_or_404
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Bom, Pcb
 
 # Create your views here.
 
 
 def index(request):
-    queryset = Pcb.objects.all()
-    return render(request, 'index.html', context={'pcbs': queryset})
+    """ Render HTML list view of all PCBs with pagination"""
+    # TODO add warehouse and processing fields
+    pcb_list = Pcb.objects.all()
+    paginator = Paginator(pcb_list, 10)
+    page = request.GET.get('page')
+    try:
+        pcbs = paginator.page(page)
+    except PageNotAnInteger:
+        pcbs = paginator.page(1) # If page is not an integer, deliver first page.
+    except EmptyPage:
+        pcbs = paginator.page(paginator.num_pages) # If page is out of range (e.g. 9999), deliver last page of results.
+
+    return render(request,
+                  'index.html',
+                  {'pcbs': pcbs})
 
 
 def pcb_detail(request, id):

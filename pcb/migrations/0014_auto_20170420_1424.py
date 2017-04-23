@@ -16,23 +16,23 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='pcb',
             name='order_files',
-            field=models.FileField(default='', upload_to='order_files', validators=[pcb.models.file_zip]),
+            field=models.FileField(default='', upload_to='order_files'),
             preserve_default=False,
         ),
         migrations.AddField(
             model_name='pcb',
             name='order_list',
-            field=models.FileField(default='', upload_to='order_list', validators=[pcb.models.file_doc]),
+            field=models.FileField(default='', upload_to='order_list'),
             preserve_default=False,
         ),
         migrations.AlterField(
             model_name='pcb',
             name='pcb',
-            field=models.FileField(upload_to='pcb', validators=[pcb.models.file_pdf]),
+            field=models.FileField(upload_to='pcb'),
         ),
         migrations.AlterField(
             model_name='schematic',
             name='sch',
-            field=models.FileField(upload_to='schematic', validators=[pcb.models.file_pdf]),
+            field=models.FileField(upload_to='schematic'),
         ),
     ]

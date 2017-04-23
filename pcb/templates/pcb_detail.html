@@ -1,15 +1,15 @@
-{% extends "index.html" %}
-{% block content %}
-
+{% extends "base.html" %}
 {% load static %}
+
+{% block content %}
 <article>
     <h3>{{ pcb }}</h3>
         <h4>Order Information</h4>
             <div class="block">
-                    <div> Order list: <a href="{% static pcb.orderlist.url %}" download> {{ pcb.filename }}</a></div>
+                    <div> Order list: <a href="{% static pcb.orderlist.url %}" download> {{ pcb.clean_orderlist }}</a></div>
             </div>
             <div class="block">
-                    <div> Order files: <a href="{% static pcb.orderfiles.url %}" download> {{ pcb.orderfiles }}</a></div>
+                    <div> Order files: <a href="{% static pcb.orderfiles.url %}" download> {{ pcb.clean_orderfiles }}</a></div>
             </div>
         <h4>Schematic</h4>
             {% for sch in pcb.schematic_set.all %}

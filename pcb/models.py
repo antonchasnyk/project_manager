@@ -1,82 +1,107 @@
 from django.db import models
 from components.models import Component
-from django.core.exceptions import ValidationError
+from django.utils.translation import ugettext as _
 import os
 
 # Create your models here.
 
 
-def file_pdf(value):    # TODO Validators
-    if False:
-        raise ValidationError('Only *.pdf are support')
-    return value
-
-
-def file_doc(value):
-    if False:
-        raise ValidationError('Only *.doc are support')
-    return value
-
-
-def file_zip(value):
-    if False:
-        raise ValidationError('Only *.zip are support')
-    return value
-
-
 class Pcb(models.Model):
-    name = models.CharField(max_length=30)
-    cipher = models.CharField(max_length=15)
-    revision = models.CharField(max_length=1)
-    pcb = models.FileField(upload_to='pcb', validators=[file_pdf])
-    orderlist  = models.FileField(upload_to='order_list', validators=[file_doc])
-    orderfiles = models.FileField(upload_to='order_files', validators=[file_zip])
-    project = models.CharField(max_length=300)
+    """ 
+        Represent PCB with link to documentation and BOMs
+        Indexing: Name, Cipher, Cipher & Revision 
+    """
+    name = models.CharField(_('Наименовение'), db_index=True, max_length=30)
+    cipher = models.CharField(_('Шифр'), db_index=True, max_length=15)
+    revision = models.CharField(_('Ревизия'), max_length=1)
+    pcb = models.FileField(_('Топология'), upload_to='pcb')
+    orderlist  = models.FileField(_('Лист заказ'), upload_to='order_list')
+    orderfiles = models.FileField(_('Архив для заказа'), upload_to='order_files')
+    project = models.CharField(_('Ссылка на проект'), max_length=300)
 
     class Meta:
         unique_together = (('cipher', 'revision'),)
+        index_together = (('cipher', 'revision'),)
         ordering = 'cipher', 'revision'
-        verbose_name = 'PCB'
-        verbose_name_plural = 'PCBs'
+        verbose_name = _('Печатная плата')
+        verbose_name_plural = _('Печатные платы')
 
     def __str__(self):
         return '({} REV. {}) {}'.format(self.cipher, self.revision, self.name)
 
-    def filename(self): # TODO clear filename
+    # define clean files name
+
+    def clean_pcb(self):
+        print(os.path.basename(self.pcb.name))
+        return os.path.basename(self.pcb.name)
+
+    def clean_orderlist(self):
         print(os.path.basename(self.orderlist.name))
         return os.path.basename(self.orderlist.name)
 
+    def clean_orderfiles(self):
+        print(os.path.basename(self.orderfiles.name))
+        return os.path.basename(self.orderfiles.name)
+
+
+class Schematic(models.Model):
+    """
+        Represent schematic sheets of pcb
+        One PCB can have one or several sheets of schematic
+    """
+    sheet = models.CharField(_('Лист'), max_length=5)
+    sch = models.FileField(_('Файл схемы'), upload_to='schematic')
+    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'), related_name='schematic')
+
+    class Meta:
+        verbose_name = _('Схема принципиальная электрическая')
+        verbose_name_plural = _('Схемы принципиальные электрические')
+
+    def __str__(self):
+        return 'Sheet {}'.format(self.sheet)
+
+    # define clean files name
+
+    def clean_sch(self):
+        print(os.path.basename(self.sch.name))
+        return os.path.basename(self.sch.name)
+
 
 class BomComponent(models.Model):
-    component = models.ForeignKey(Component, verbose_name='Component')
-    bom = models.ForeignKey('Bom', verbose_name='Bill of material')
-    annotation = models.CharField('Annotation', max_length=10)
+    """
+        ManyToMany pass through table with additional field "annotation" for each element
+        wich represent annotation element in schematic
+    """
+    component = models.ForeignKey(Component, verbose_name=_('Элемент'), related_name='bomcomponent')
+    bom = models.ForeignKey('Bom', verbose_name=_('Перечень элементов'), related_name='bomcomponent')
+    annotation = models.CharField(_('Позиционное обозначение'), max_length=10)
 
     class Meta:
         unique_together = (('component', 'bom', 'annotation'),)
-        verbose_name = 'Component in Bom'
-        verbose_name_plural = 'Components in Bom'
+        verbose_name = _('Компонент')
+        verbose_name_plural = _('Компоненты')
+
+    def __str__(self):
+        return str(self.component)
 
 
 class Bom(models.Model):
-    pcb = models.ForeignKey(Pcb)
-    active = models.BooleanField(default=False)
-    components = models.ManyToManyField(Component, through=BomComponent, verbose_name='components')
-    description = models.CharField(max_length=60)
+    """
+        Represent Bill of material of PCB. 
+        Linked to the components app as ManyToMany
+    """
+    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'), related_name='bom')
+    active = models.BooleanField(_('Рабочая'), default=True)
+    components = models.ManyToManyField(Component, through=BomComponent, verbose_name=_('Компоненты'),
+                                        related_name='bom')
+    description = models.CharField(_('Описание'), max_length=60)
 
     class Meta:
         ordering = 'pcb',
-        verbose_name = 'BOM'
-        verbose_name_plural = 'BOMs'
+        verbose_name = _('Перечень элементов')
+        verbose_name_plural = _('Перечни элементов')
 
     def __str__(self):
         return 'BOM {} {}'.format(self.pcb, self.description)
 
 
-class Schematic(models.Model):
-    sheet = models.CharField(max_length=5)
-    sch = models.FileField(upload_to='schematic', validators=[file_pdf])
-    pcb = models.ForeignKey(Pcb)
-
-    def __str__(self):
-        return 'Sheet {}'.format(self.sheet)
