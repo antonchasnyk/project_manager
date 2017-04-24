@@ -8,6 +8,8 @@
         <dt class="col-sm-3">Посадочное место:</dt>
         <dd class="col-sm-9">{{ el.footprint }}</dd>
         <dt class="col-sm-3">Номинал:</dt>
-        <dd class="col-sm-9">{{ el.value }}</dd>
+        <dd class="col-sm-9">{{ el.get_value }}</dd>
+        <dt class="col-sm-3">Напряжение:</dt>
+        <dd class="col-sm-9">{{ el.get_voltage }}</dd>
     </dl>
 {% endblock %}

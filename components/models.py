@@ -2,6 +2,7 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from .obfuscator import res_obfuscator, cap_obfuscator
+from .validators import res_validator
 
 # Create your models here.
 
@@ -36,7 +37,7 @@ class Component(models.Model):
 
 
 class Resistor(Component):
-    value = models.PositiveIntegerField(_('Номинал'), db_index=True, default=0) # TODO validator k, M, G
+    value = models.BigIntegerField(_('Номинал'), db_index=True, default=0) # Store in mOhm
 
     class Meta:
         ordering = ['footprint', 'value']
@@ -46,16 +47,19 @@ class Resistor(Component):
     def save(self, *args, **kwargs):
         if not self.detail_name:
             self.detail_name = 'resistor_detail'
-        self.comment = '{} {} {}'.format(self.name, self.footprint, res_obfuscator(self.value))
+        self.comment = '{} {} {}'.format(self.name, self.footprint, self.get_value())
         super().save(*args, **kwargs)
+
+    def get_value(self):
+        return res_obfuscator(self.value/1000) # mOhm to Ohm and obfuscate
 
     def __str__(self):
         return self.comment
 
 
 class Capacitor(Component):
-    value = models.PositiveIntegerField(_('Номинал'), db_index=True,  default=0)
-    voltage = models.PositiveIntegerField(_('Напряжение'), db_index=True, default=5)
+    value = models.BigIntegerField(_('Номинал'), db_index=True,  default=0)
+    voltage = models.FloatField(_('Напряжение'), db_index=True, default=5)
 
     class Meta:
         ordering = ['footprint', 'value']
@@ -66,8 +70,14 @@ class Capacitor(Component):
     def save(self, *args, **kwargs):
         if not self.detail_name:
             self.detail_name = 'capacitor_detail'
-        self.comment = '{} {} x {}V {}'.format(self.name, cap_obfuscator(self.value), self.voltage, self.footprint)
+        self.comment = '{} {} x {}V {}'.format(self.name, self.get_value(), self.voltage, self.footprint)
         super().save(*args, **kwargs)
+
+    def get_value(self):
+        return cap_obfuscator(self.value/1000)
+
+    def get_voltage(self):
+        return '{} V'.format(self.voltage)
 
 
 class Transistor(Component):
