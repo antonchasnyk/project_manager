@@ -17,7 +17,7 @@ from django.conf.urls import url, include
 from django.contrib import admin
 
 urlpatterns = [
-    url(r'^', include('pcb.urls')),
-    url(r'^components/', include('components.urls')),
+    url(r'^', include('pcb.urls', namespace='pcb')),
+    url(r'^components/', include('components.urls', namespace='component')),
     url(r'^admin/', admin.site.urls),
 ]

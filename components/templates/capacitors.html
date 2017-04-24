@@ -8,7 +8,7 @@
             {% for capacitor in capacitors %}
                 <tr>
                     <td>
-                        <a href="{% url 'capacitor_detail' id=capacitor.id %}"> {{ capacitor.name }} </a>
+                        <a href="{% url 'component:capacitor_detail' id=capacitor.id %}"> {{ capacitor.name }} </a>
                     </td>
                     <td>
                         {{ capacitor.footprint }}

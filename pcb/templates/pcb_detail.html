@@ -2,35 +2,73 @@
 {% load static %}
 
 {% block content %}
-<article>
-    <h3>{{ pcb }}</h3>
-        <h4>Order Information</h4>
-            <div class="block">
-                    <div> Order list: <a href="{% static pcb.orderlist.url %}" download> {{ pcb.clean_orderlist }}</a></div>
-            </div>
-            <div class="block">
-                    <div> Order files: <a href="{% static pcb.orderfiles.url %}" download> {{ pcb.clean_orderfiles }}</a></div>
-            </div>
-        <h4>Schematic</h4>
-            {% for sch in pcb.schematic_set.all %}
-                <div class="block">
-                    <div> <a href="{% static sch.sch.url %}" download> {{ sch }}</a></div>
-                </div>
-            {% endfor %}
-        <h4>PCB</h4>
-            <div class="block">
-                    <div> <a href="{% static pcb.pcb.url %}" download> Download</a></div>
-            </div>
-        <h4>BOM</h4>
-            {% for bom in pcb.bom_set.all %}
-                <div class="block">
-                    <div><a href="{% url 'bom_detail' id=bom.id %}" > {{ bom }} </a></div>
-                </div>
-            {% endfor %}
-        <h4>Full project</h4>
-            <div class="block">
-                    <div><a href="{{ pcb.project }}"> {{ pcb.project }} </a></div>
-            </div>
-</article>
+    <div class="row">&nbsp;</div>
+    <div class="row justify-content-md-center">
+        <h1>{{ pcb }}</h1>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+        <div class="col"></div>
+        <div class="col-8">
+                <dl class="row">
+                    <dt class="col-sm-3">Полная документация</dt>
+                    <dd class="col-sm-9">
+                        <a href="{{ pcb.project }}" target="_blank"> {{ pcb.project }} </a>
+                    </dd>
+                </dl>
+
+                <h4>Информация о заказе</h4>
+                <dl class="row">
+                    <dt class="col-sm-2">Лист заказа</dt>
+                    <dd class="col-sm-10">
+                        <a href="{% static pcb.orderlist.url %}" download>
+                            {{ pcb.clean_orderlist }}
+                        </a>
+                    </dd>
+                    <dt class="col-sm-2">Файлы заказа</dt>
+                    <dd class="col-sm-10">
+                        <a href="{% static pcb.orderfiles.url %}" download>
+                            {{ pcb.clean_orderfiles }}
+                        </a>
+                    </dd>
+                </dl>
+
+                <h4>Схемы</h4>
+                <dl class="row">
+                    {% for sch in pcb.schematic_set.all|dictsort:"sheet" %}
+                        <dt class="col-sm-2">{{ sch.sheet }}</dt>
+                        <dd class="col-sm-10">
+                            <a href="{% static sch.sch.url %}">
+                                {{ sch.clean_sch }}
+                            </a>
+                        </dd>
+                    {% endfor %}
+                </dl>
+
+                <h4>Монтажный чертеж</h4>
+                <dl class="row">
+                    <dt class="col-sm-2">Топология</dt>
+                    <dd class="col-sm-10">
+                            <a href="{% static pcb.pcb.url %}">
+                                {{ pcb.clean_pcb }}
+                            </a>
+                        </dd>
+                </dl>
+
+                <h4>Перечни элементов</h4>
+                <dl class="row">
+                    {% for bom in pcb.bom_set.all|dictsort:"description" %}
+                        <dt class="col-sm-2">{{ bom.description }}</dt>
+                        <dd class="col-sm-10">
+                            <a href="{% url 'pcb:bom_detail' id=bom.id %}">
+                                {{ bom }}
+                            </a>
+                        </dd>
+                    {% endfor %}
+                </dl>
+
+        </div>
+        <div class="col"></div>
+    </div>
 
 {% endblock %}

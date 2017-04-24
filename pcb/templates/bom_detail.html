@@ -2,24 +2,35 @@
 {% load static %}
 
 {% block content %}
+     <div class="row">&nbsp;</div>
+        <div class="row justify-content-md-center">
+            <h1>{{ bom }}</h1>
+        </div>
+        <div class="row">&nbsp;</div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <table class="table table-hover">
+                    <thead class="thead-inverse">
+                        <th width="25%">Поз</th>
+                        <th style="text-align: center">Наименование</th>
+                        <th width="10%">Кол</th>
+                    </thead>
+                    <tbody>
+                        {% for component in components|dictsort:"annotation" %}
+                            <tr>
+                                <td>{{ component.annotation}}</td>
+                                <td><a href="{{component.el.get_absolute_url }}">
+                                        {{ component.el.comment}}
+                                    </a>
+                                </td>
+                                <td>{{ component.count}}</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
 
-<article>
-    <h3>{{ bom }}</h3>
-        <table class="bom">
-                 <tr>
-                    <td>Поз</td>
-                    <td>Наименование</td>
-                    <td>Кол</td>
-                </tr>
-            {% for component in components|dictsort:"annotation" %}
-                <tr>
-                    <td>{{ component.annotation}}</td>
-                    <td><a href="{% url component.el.detail_name id=component.el.id %}">{{ component.el.comment}}</a></td>
-                    <td>{{ component.count}}</td>
-                </tr>
-            {% endfor %}
-
-        </table>
-    </article>
-
+            </div>
+            <div class="col"></div>
+        </div>
 {% endblock %}

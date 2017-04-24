@@ -27,10 +27,10 @@
                 {% for bom in boms|dictsort:"name"  %}
                     <tr>
                         <td>
-                            <a href="{%  url 'pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a>
+                            <a href="{%  url 'pcb:pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a>
                         </td>
                         <td>
-                            <a href="{%  url 'bom_detail' id=bom.bom.id %}" >{{ bom.bom.description }}</a>
+                            <a href="{%  url 'pcb:bom_detail' id=bom.bom.id %}" >{{ bom.bom.description }}</a>
                         </td>
                         <td>
                             {{ bom.count }}

@@ -8,7 +8,7 @@
             {% for transistor in transistros %}
                 <tr>
                     <td>
-                        <a href="{% url 'transistor_detail' id=transistor.id %}"> {{ transistor.name }} </a>
+                        <a href="{% url 'component:transistor_detail' id=transistor.id %}"> {{ transistor.name }} </a>
                     </td>
                     <td>
                         {{ transistor.footprint }}

@@ -2,8 +2,7 @@
 {% load static %}
 
 {% block content %}
-
-    <div class="container-fluid">
+        <div class="row">&nbsp;</div>
         <div class="row justify-content-md-center">
             <h1>Печатные платы</h1>
         </div>
@@ -25,7 +24,7 @@
                                     {%  widthratio forloop.counter 1 pcbs.number %}
                                 </th>
                                 <td>
-                                    <a href="{% url 'pcb_detail' id=pcb.id %}"> {{ pcb }}</a>
+                                    <a href="{% url 'pcb:pcb_detail' id=pcb.id %}"> {{ pcb }}</a>
                                 </td>
                                 <td></td>
                                 <td></td>
@@ -93,7 +92,6 @@
             </div>
             <div class="col"></div>
         </div>
-    </div>
 
 
 

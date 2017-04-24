@@ -14,7 +14,7 @@ class Pcb(models.Model):
     name = models.CharField(_('Наименовение'), db_index=True, max_length=30)
     cipher = models.CharField(_('Шифр'), db_index=True, max_length=15)
     revision = models.CharField(_('Ревизия'), max_length=1)
-    pcb = models.FileField(_('Топология'), upload_to='pcb')
+    pcb = models.FileField(_('Монтажный чертеж'), upload_to='pcb')
     orderlist  = models.FileField(_('Лист заказ'), upload_to='order_list')
     orderfiles = models.FileField(_('Архив для заказа'), upload_to='order_files')
     project = models.CharField(_('Ссылка на проект'), max_length=300)
@@ -32,15 +32,12 @@ class Pcb(models.Model):
     # define clean files name
 
     def clean_pcb(self):
-        print(os.path.basename(self.pcb.name))
         return os.path.basename(self.pcb.name)
 
     def clean_orderlist(self):
-        print(os.path.basename(self.orderlist.name))
         return os.path.basename(self.orderlist.name)
 
     def clean_orderfiles(self):
-        print(os.path.basename(self.orderfiles.name))
         return os.path.basename(self.orderfiles.name)
 
 
@@ -49,9 +46,9 @@ class Schematic(models.Model):
         Represent schematic sheets of pcb
         One PCB can have one or several sheets of schematic
     """
-    sheet = models.CharField(_('Лист'), max_length=5)
+    sheet = models.CharField(_('Лист'), max_length=20)
     sch = models.FileField(_('Файл схемы'), upload_to='schematic')
-    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'), related_name='schematic')
+    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'))
 
     class Meta:
         verbose_name = _('Схема принципиальная электрическая')
@@ -63,7 +60,6 @@ class Schematic(models.Model):
     # define clean files name
 
     def clean_sch(self):
-        print(os.path.basename(self.sch.name))
         return os.path.basename(self.sch.name)
 
 
@@ -72,8 +68,8 @@ class BomComponent(models.Model):
         ManyToMany pass through table with additional field "annotation" for each element
         wich represent annotation element in schematic
     """
-    component = models.ForeignKey(Component, verbose_name=_('Элемент'), related_name='bomcomponent')
-    bom = models.ForeignKey('Bom', verbose_name=_('Перечень элементов'), related_name='bomcomponent')
+    component = models.ForeignKey(Component, verbose_name=_('Элемент'))
+    bom = models.ForeignKey('Bom', verbose_name=_('Перечень элементов'))
     annotation = models.CharField(_('Позиционное обозначение'), max_length=10)
 
     class Meta:
@@ -90,10 +86,9 @@ class Bom(models.Model):
         Represent Bill of material of PCB. 
         Linked to the components app as ManyToMany
     """
-    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'), related_name='bom')
+    pcb = models.ForeignKey(Pcb, verbose_name=_('Печатная плата'))
     active = models.BooleanField(_('Рабочая'), default=True)
-    components = models.ManyToManyField(Component, through=BomComponent, verbose_name=_('Компоненты'),
-                                        related_name='bom')
+    components = models.ManyToManyField(Component, through=BomComponent, verbose_name=_('Компоненты'))
     description = models.CharField(_('Описание'), max_length=60)
 
     class Meta:
