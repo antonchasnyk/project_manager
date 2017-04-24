@@ -2,12 +2,12 @@
 {% load static %}
 
 {% block parameters %}
-    <dl>
-        <dt> Name: </dt>
-        <dd>{{ el.name }}</dd>
-        <dt>Footprint:</dt>
-        <dd>{{ el.footprint }}</dd>
-        <dt>Value:</dt>
-        <dd>{{ el.value }}</dd>
+    <dl class="row">
+        <dt class="col-sm-3">Партномер: </dt>
+        <dd class="col-sm-9">{{ el.name }}</dd>
+        <dt class="col-sm-3">Посадочное место:</dt>
+        <dd class="col-sm-9">{{ el.footprint }}</dd>
+        <dt class="col-sm-3">Номинал:</dt>
+        <dd class="col-sm-9">{{ el.value }}</dd>
     </dl>
 {% endblock %}

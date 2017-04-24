@@ -1,22 +1,32 @@
 from django.db import models
 from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext as _
+from .obfuscator import res_obfuscator, cap_obfuscator
 
 # Create your models here.
 
 
 class Footprint(models.Model):
-    name = models.CharField(max_length=30)
+    name = models.CharField(_('Наименование'), db_index=True, max_length=30)
+
+    class Meta:
+        verbose_name = _('Посадочное место')
+        verbose_name_plural = _('Посадочные места')
 
     def __str__(self):
         return self.name
 
 
 class Component(models.Model):
-    name = models.CharField(max_length=30)
-    footprint = models.ForeignKey(Footprint)
-    image = models.ImageField(upload_to='components_images', null=False, blank=False)
+    name = models.CharField(_('Партномер'), db_index=True, max_length=30)
+    footprint = models.ForeignKey(Footprint, db_index=True, verbose_name=_('Посадочное место'))
+    image = models.ImageField(_('Фото'), upload_to='components_images', null=False, blank=False)
     detail_name = models.CharField(max_length=30, editable=False)
     comment = models.CharField(max_length=80, editable=False)
+
+    class Meta:
+        verbose_name = _('Компонент')
+        verbose_name_plural = _('Компоненты')
 
     def __str__(self):
         return self.comment
@@ -26,10 +36,12 @@ class Component(models.Model):
 
 
 class Resistor(Component):
-    value = models.PositiveIntegerField(default=0) # TODO validator k, M, G
+    value = models.PositiveIntegerField(_('Номинал'), db_index=True, default=0) # TODO validator k, M, G
 
     class Meta:
         ordering = ['footprint', 'value']
+        verbose_name = _('Резистор')
+        verbose_name_plural = _('Резисторы')
 
     def save(self, *args, **kwargs):
         if not self.detail_name:
@@ -42,11 +54,14 @@ class Resistor(Component):
 
 
 class Capacitor(Component):
-    value = models.PositiveIntegerField(default=0)
-    voltage = models.PositiveIntegerField(default=5)
+    value = models.PositiveIntegerField(_('Номинал'), db_index=True,  default=0)
+    voltage = models.PositiveIntegerField(_('Напряжение'), db_index=True, default=5)
 
     class Meta:
         ordering = ['footprint', 'value']
+        index_together = (('value', 'voltage'),)
+        verbose_name = _('Конденсатор')
+        verbose_name_plural = _('Конденсаторы')
 
     def save(self, *args, **kwargs):
         if not self.detail_name:
@@ -56,10 +71,12 @@ class Capacitor(Component):
 
 
 class Transistor(Component):
-    type = models.CharField(max_length=20)
+    type = models.CharField(_('Тип'), db_index=True, max_length=20)
 
     class Meta:
         ordering = ['type', 'footprint']
+        verbose_name = _('Транзистор')
+        verbose_name_plural = _('Транзисторы')
 
     def save(self, *args, **kwargs):
         if not self.detail_name:

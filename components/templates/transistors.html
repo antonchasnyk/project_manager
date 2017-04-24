@@ -2,23 +2,37 @@
 {% load static %}
 
 {% block content %}
-
-    <article>
-        <table>
-            {% for transistor in transistros %}
-                <tr>
-                    <td>
-                        <a href="{% url 'component:transistor_detail' id=transistor.id %}"> {{ transistor.name }} </a>
-                    </td>
-                    <td>
-                        {{ transistor.footprint }}
-                    </td>
-                    <td>
-                        {{ transistor.type }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </article>
-
+    <div class="row">&nbsp;</div>
+    <div class="row justify-content-md-center">
+        <h1>Транзисторы </h1>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <table class="table table-hover">
+                    <thead class="thead-inverse">
+                        <th>Партномер</th>
+                        <th>Посадочное место</th>
+                        <th>Тип</th>
+                    </thead>
+                    <tbody>
+                        {% for transistor in transistros %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'component:transistor_detail' id=transistor.id %}"> {{ transistor.name }} </a>
+                                </td>
+                                <td>
+                                    {{ transistor.footprint }}
+                                </td>
+                                <td>
+                                    {{ transistor.type }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+    </div>
 {% endblock %}

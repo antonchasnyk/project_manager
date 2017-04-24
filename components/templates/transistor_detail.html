@@ -3,12 +3,12 @@
 
 
 {% block parameters %}
-     <dl>
-        <dt> Name: </dt>
-        <dd>{{ el.name }}</dd>
-        <dt>Footprint:</dt>
-        <dd>{{ el.footprint }}</dd>
-        <dt>Type:</dt>
-        <dd>{{ el.type }}</dd>
+     <dl class="row">
+        <dt class="col-sm-3">Партномер: </dt>
+        <dd class="col-sm-9">{{ el.name }}</dd>
+        <dt class="col-sm-3">Посадочное место:</dt>
+        <dd class="col-sm-9">{{ el.footprint }}</dd>
+        <dt class="col-sm-3">Тип:</dt>
+        <dd class="col-sm-9">{{ el.type }}</dd>
     </dl>
 {% endblock %}

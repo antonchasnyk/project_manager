@@ -2,23 +2,37 @@
 {% load static %}
 
 {% block content %}
-
-    <article>
-        <table>
-            {% for resistor in resistors %}
-                <tr>
-                    <td>
-                        <a href="{% url 'component:resistor_detail' id=resistor.id %}"> {{ resistor.name }} </a>
-                    </td>
-                    <td>
-                        {{ resistor.footprint }}
-                    </td>
-                    <td>
-                        {{ resistor.value }}
-                    </td>
-                </tr>
-            {% endfor %}
-        </table>
-    </article>
-
+    <div class="row">&nbsp;</div>
+    <div class="row justify-content-md-center">
+        <h1>Резисторы </h1>
+    </div>
+    <div class="row">&nbsp;</div>
+    <div class="row">
+            <div class="col"></div>
+            <div class="col-8">
+                <table class="table table-hover">
+                    <thead class="thead-inverse">
+                        <th>Партномер</th>
+                        <th>Посадочное место</th>
+                        <th>Номинал</th>
+                    </thead>
+                    <tbody>
+                        {% for resistor in resistors %}
+                            <tr>
+                                <td>
+                                    <a href="{% url 'component:resistor_detail' id=resistor.id %}"> {{ resistor.name }} </a>
+                                </td>
+                                <td>
+                                    {{ resistor.footprint }}
+                                </td>
+                                <td>
+                                    {{ resistor.value }}
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="col"></div>
+    </div>
 {% endblock %}

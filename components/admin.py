@@ -3,6 +3,7 @@ from .models import Resistor, Capacitor, Transistor, Footprint
 
 # Register your models here.
 
+
 @admin.register(Footprint)
 class FootprintAdmin(admin.ModelAdmin):
     pass
