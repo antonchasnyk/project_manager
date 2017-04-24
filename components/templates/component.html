@@ -35,13 +35,13 @@
                         <th>Количество</th>
                     </thead>
                     <tbody>
-                        {% for bom in boms|dictsort:"name"  %}
+                        {% for bom in boms  %}
                             <tr>
                                 <td>
-                                    <a href="{%  url 'pcb:pcb_detail' id=bom.bom.pcb.id %}" >{{ bom.bom.pcb }}</a>
+                                    <a href="{%  url 'pcb:pcb_detail' id=bom.pcb.id %}" >{{ bom.pcb }}</a>
                                 </td>
                                 <td>
-                                    <a href="{%  url 'pcb:bom_detail' id=bom.bom.id %}" >{{ bom.bom.description }}</a>
+                                    <a href="{%  url 'pcb:bom_detail' id=bom.id %}" >{{ bom.description }}</a>
                                 </td>
                                 <td>
                                     {{ bom.count }}

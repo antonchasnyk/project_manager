@@ -7,12 +7,7 @@ from django.db.models import Count
 
 def get_boms(id):
     el = get_object_or_404(Component, pk=id)
-    boms = el.bom_set.all().order_by('id').distinct('id')
-    cboms = []
-    for bom in boms:
-        count = bom.components.filter(pk=el.id).count()
-        cboms.append({'name': str(bom), 'bom': bom, 'count': count})
-    return cboms
+    return el.bom_set.all().annotate(count=Count('components__pk'))
 
 
 def components_detail(request, id):
