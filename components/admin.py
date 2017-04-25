@@ -13,7 +13,10 @@ class FootprintAdmin(admin.ModelAdmin):
 
 
 class ResAdminForm(forms.ModelForm):
-    # custom field not backed by database
+    """
+        Form provide custom field to interact with value field
+        Validator must convert input to mOhms or raise Validation Error
+    """
     obf_value = forms.CharField(label=_('Номинал'))
 
     class Meta:
@@ -27,14 +30,18 @@ class ResAdminForm(forms.ModelForm):
         return db
 
     def __init__(self, *args, **kwargs):
-        # only change attributes if an instance is passed
+        # provide a initial value in standard units
         instance = kwargs.get('instance')
         if instance:
             self.base_fields['obf_value'].initial = instance.get_value()
         forms.ModelForm.__init__(self, *args, **kwargs)
 
+
 @admin.register(Resistor)
 class ResistorAdmin(admin.ModelAdmin):
+    """
+        replace value by cleaned_obf_value before save
+    """
     form = ResAdminForm
 
     def save_model(self, request, obj, form, change):
@@ -43,7 +50,10 @@ class ResistorAdmin(admin.ModelAdmin):
 
 
 class CapAdminForm(forms.ModelForm):
-    # custom field not backed by database
+    """
+        Form provide custom field to interact with value field
+        Validator must convert input to femtofarads or raise Validation Error
+    """
     obf_value = forms.CharField(label=_('Номинал'))
 
     class Meta:
@@ -57,7 +67,7 @@ class CapAdminForm(forms.ModelForm):
         return db
 
     def __init__(self, *args, **kwargs):
-        # only change attributes if an instance is passed
+        # provide a initial value in standard units
         instance = kwargs.get('instance')
         if instance:
             self.base_fields['obf_value'].initial = instance.get_value()
@@ -66,6 +76,9 @@ class CapAdminForm(forms.ModelForm):
 
 @admin.register(Capacitor)
 class CapacitorAdmin(admin.ModelAdmin):
+    """
+        replace value by cleaned_obf_value before save
+    """
     form = CapAdminForm
 
     def save_model(self, request, obj, form, change):

@@ -2,12 +2,14 @@ from django.db import models
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext as _
 from .obfuscator import res_obfuscator, cap_obfuscator
-from .validators import res_validator
 
 # Create your models here.
 
 
 class Footprint(models.Model):
+    """
+        Represent component footprints
+    """
     name = models.CharField(_('Наименование'), db_index=True, max_length=30)
 
     class Meta:
@@ -19,6 +21,13 @@ class Footprint(models.Model):
 
 
 class Component(models.Model):
+    """
+        Base class for electronic components which provide general functionality for adding component to 
+        bill of material
+        All child must fill comment and detail_name fields
+        comment: field use for represent component in BOM
+        detail_name: relative link to component detail w/o id
+    """
     name = models.CharField(_('Партномер'), db_index=True, max_length=30)
     footprint = models.ForeignKey(Footprint, db_index=True, verbose_name=_('Посадочное место'))
     image = models.ImageField(_('Фото'), upload_to='components_images', null=False, blank=False)
@@ -37,6 +46,10 @@ class Component(models.Model):
 
 
 class Resistor(Component):
+    """
+        Represent resistor
+        Value store in mOhms and obfuscate by get_value()
+    """
     value = models.BigIntegerField(_('Номинал'), db_index=True, default=0) # Store in mOhm
 
     class Meta:
@@ -51,13 +64,17 @@ class Resistor(Component):
         super().save(*args, **kwargs)
 
     def get_value(self):
-        return res_obfuscator(self.value/1000) # mOhm to Ohm and obfuscate
+        return res_obfuscator(self.value/1000)  # mOhm to Ohm and obfuscate
 
     def __str__(self):
         return self.comment
 
 
 class Capacitor(Component):
+    """
+        Represent capacitor
+        Value store in femtofarads and obfuscate by get_value()
+    """
     value = models.BigIntegerField(_('Номинал'), db_index=True,  default=0)
     voltage = models.FloatField(_('Напряжение'), db_index=True, default=5)
 
@@ -74,13 +91,16 @@ class Capacitor(Component):
         super().save(*args, **kwargs)
 
     def get_value(self):
-        return cap_obfuscator(self.value/1000)
+        return cap_obfuscator(self.value/1000)  # femtofarads to picofarads and obfuscate
 
     def get_voltage(self):
         return '{} V'.format(self.voltage)
 
 
 class Transistor(Component):
+    """
+        Represent transistor
+    """
     type = models.CharField(_('Тип'), db_index=True, max_length=20)
 
     class Meta:

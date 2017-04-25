@@ -1,5 +1,6 @@
 from django.contrib import admin
 from .models import Pcb, Bom, BomComponent, Schematic
+from django.core.exceptions import ValidationError
 
 # Register your models here.
 

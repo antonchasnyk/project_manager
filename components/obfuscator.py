@@ -1,4 +1,9 @@
 def res_obfuscator(value):
+    """
+        Obfuscate resistance from Ohms to xOhms
+    :param value: integer resistance in Ohms 
+    :return: string resistance in standard units kOhm, MOhms, etc 
+    """
     multiplier = {
                       value < 10**3 : ('', 1),
              10**3 <= value < 10**6 : ('k', 10**3),
@@ -10,6 +15,11 @@ def res_obfuscator(value):
 
 
 def cap_obfuscator(value):
+    """
+        Obfuscate resistance from pF to xF
+    :param value: integer capacity in pF
+    :return: string capacity in standard units uF, nF, etc
+    """
     multiplier = {
                       value < 10**3 : ('p', 1),
              10**3 <= value < 10**6 : ('n', 10**3),

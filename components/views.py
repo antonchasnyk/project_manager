@@ -26,7 +26,7 @@ def resistors(request):    # TODO Copies
     return render(request, 'resistors.html', context={'resistors':res})
 
 
-def resistor_detail(request, id): # TODO make filtering value
+def resistor_detail(request, id):
     res = get_object_or_404(Resistor, pk=id)
     boms = get_boms(res.id)
     context = {'el': res, 'boms': boms}
