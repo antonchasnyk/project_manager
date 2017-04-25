@@ -21,13 +21,11 @@ class ResAdminForm(forms.ModelForm):
 
     class Meta:
         model = Resistor
-        fields = '__all__'
         exclude = ('value',)
 
     def clean_obf_value(self):
         data = self.cleaned_data['obf_value']
-        db = res_validator(data)
-        return db
+        return res_validator(data)
 
     def __init__(self, *args, **kwargs):
         # provide a initial value in standard units
@@ -58,13 +56,11 @@ class CapAdminForm(forms.ModelForm):
 
     class Meta:
         model = Capacitor
-        fields = '__all__'
         exclude = ('value',)
 
     def clean_obf_value(self):
         data = self.cleaned_data['obf_value']
-        db = cap_validator(data)
-        return db
+        return cap_validator(data)
 
     def __init__(self, *args, **kwargs):
         # provide a initial value in standard units
